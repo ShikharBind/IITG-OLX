@@ -11,9 +11,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 
 # Quick-start development settings - unsuitable for production
@@ -123,6 +126,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
+
+MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -148,3 +157,5 @@ MICROSOFT_AUTH_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
 # Microsoft authentication
 # include Microsoft Accounts, Office 365 Enterpirse and Azure AD accounts
 MICROSOFT_AUTH_LOGIN_TYPE = 'ma'
+
+LOGIN_URL = '/user_profile/user_login'

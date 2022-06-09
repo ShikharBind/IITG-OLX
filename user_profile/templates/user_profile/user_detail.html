@@ -1,0 +1,23 @@
+{% extends "posts_app/base.html" %}
+{% load static %}
+
+{% block head_block %}
+<title>User Profile</title>
+{% endblock %} 
+
+{% block body_block %}
+<div class="jumbotron">
+    <h1>Profile Details:</h1>
+    <!-- <p>Profile pic: <img src="{{user_data.profile_pic.url}}" alt="" width="200px"></p> -->
+    <img src="{{user_data.profile_pic.url}}" alt="" width="300px" height="300"><br><br>
+    <p>Name: {{user_data.user.first_name}} {{user_data.user.last_name}}</p>
+    <p>Program: {{user_data.program}}</p>
+    <p>Department: {{user_data.department}}</p>
+    <p>Year of study: </p>
+    <p>Contact No: {{user_data.contact}}</p>
+    <p>Email ID: {{user_data.user.email}}</p>
+    <br>
+    <a class="btn btn-warning" href="{% url 'user_profile:update_data' pk=user_data.pk %}">Edit Profile</a>
+    <a class="btn btn-danger" href="{% url 'user_profile:delete_data' pk=user_data.pk %}">Delete Profile</a>
+</div>
+{% endblock %}

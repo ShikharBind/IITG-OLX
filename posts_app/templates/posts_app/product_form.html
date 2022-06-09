@@ -1,0 +1,30 @@
+{% extends "posts_app/base.html" %}
+{% load static %}
+
+{% block head_block %}
+<title>Add User Profile
+    {% if not form.instance.pk %}
+    Add User Profile
+    {% else %}
+    Update User Profile
+    {% endif %}
+</title>
+{% endblock %} 
+
+{% block body_block %}
+<div class="jumbotron">
+    <h1>
+        {% if not form.instance.pk %}
+        Add User Profile
+        {% else %}
+        Update User Profile
+        {% endif %}
+    </h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-primary" value="Save">
+    </form>
+</div>
+{% endblock %}
