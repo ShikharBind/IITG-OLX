@@ -26,6 +26,8 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <!-- <li class="nav-item"><a class="nav-brand" href="{% url 'posts_app:index' %}">OLX</a></li> -->
                     <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'posts_app:product_new' %}">New Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'posts_app:drafts' %}">Drafts</a></li>
 
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'user_profile:logout' %}">Logout</a></li>

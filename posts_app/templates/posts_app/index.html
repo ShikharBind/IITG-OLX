@@ -7,5 +7,15 @@
 {% block body_block %}
 <div class="jumbotron">
     <h1>IITG OLX COMING SOON...</h1>
+    <div class="centerstage">
+        {% for product in product_list %}
+        <div class="product">
+            <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
+            <p>Published on: {{product.published_date|date:"D M Y"}}</p>
+            <p>Price: {{product.price}} rupees</p>
+            <p>Buy Requests: </p>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %} 

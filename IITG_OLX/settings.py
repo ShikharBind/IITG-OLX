@@ -158,4 +158,5 @@ MICROSOFT_AUTH_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
 # include Microsoft Accounts, Office 365 Enterpirse and Azure AD accounts
 MICROSOFT_AUTH_LOGIN_TYPE = 'ma'
 
-LOGIN_URL = '/user_profile/user_login'
+LOGIN_URL = '/profile/login'
+# LOGIN_URL = '/microsoft/to-auth-redirect/'

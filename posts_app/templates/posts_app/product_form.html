@@ -2,29 +2,47 @@
 {% load static %}
 
 {% block head_block %}
-<title>Add User Profile
+<title>
     {% if not form.instance.pk %}
-    Add User Profile
+    Add New Product
     {% else %}
-    Update User Profile
+    Update Product Details
     {% endif %}
 </title>
 {% endblock %} 
 
 {% block body_block %}
 <div class="jumbotron">
-    <h1>
-        {% if not form.instance.pk %}
-        Add User Profile
-        {% else %}
-        Update User Profile
-        {% endif %}
-    </h1>
+    {% if user.detail %}
+        <h1>
+            {% if not form.instance.pk %}
+            Add New Product Details
+            {% else %}
+            Update Product Details
+            {% endif %}
+        </h1>
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" class="btn btn-primary" value="Save">
-    </form>
+        {% if not form.instance.pk %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-primary" value="Save">
+            </form>
+        {% else %}
+            {% if form.instance.user == user %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-primary" value="Save">
+            </form>
+            {% else %}
+            <p>You can not change product's details of other users.</p>
+            {% endif %}
+        {% endif %}
+
+    {% else %}
+        <h1>You profile is incomplete.</h1>
+        <h2><a href="{% url 'user_profile:user' %}">Complete Profile</a></h2>
+    {% endif %}
 </div>
 {% endblock %}

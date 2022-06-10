@@ -21,10 +21,22 @@
         {% endif %}
     </h1>
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" class="btn btn-primary" value="Save">
-    </form>
+    {% if not form.instance.pk %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-primary" value="Save">
+        </form>
+    {% else %}
+        {% if form.instance.user == user %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-primary" value="Save">
+        </form>
+        {% else %}
+        <p>You can not change other user's profile.</p>
+        {% endif %}
+    {% endif %}
 </div>
 {% endblock %}

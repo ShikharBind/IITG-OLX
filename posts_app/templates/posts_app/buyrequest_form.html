@@ -1,0 +1,48 @@
+{% extends "posts_app/base.html" %}
+{% load static %}
+
+{% block head_block %}
+<title>
+    {% if not form.instance.pk %}
+    Send Buy Request
+    {% else %}
+    Edit Buy Request
+    {% endif %}
+</title>
+{% endblock %} 
+
+{% block body_block %}
+<div class="jumbotron">
+    {% if user.detail %}
+        <h1>
+            {% if not form.instance.pk %}
+            Send Buy Request
+            {% else %}
+            Edit Buy Request
+            {% endif %}
+        </h1>
+
+        {% if not form.instance.pk %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-primary" value="Save">
+            </form>
+        {% else %}
+            {% if form.instance.buyer == user %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-primary" value="Save">
+            </form>
+            {% else %}
+            <p>You can not change buy requests of other users.</p>
+            {% endif %}
+        {% endif %}
+
+    {% else %}
+        <h1>You profile is incomplete.</h1>
+        <h2><a href="{% url 'user_profile:user' %}">Complete Profile</a></h2>
+    {% endif %}
+</div>
+{% endblock %}

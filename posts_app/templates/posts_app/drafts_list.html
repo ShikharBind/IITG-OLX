@@ -1,0 +1,19 @@
+{% extends "posts_app/base.html" %}
+
+{% block head_block %}
+<title>IITG OLX</title>
+{% endblock %} 
+
+{% block body_block %}
+<div class="jumbotron">
+    <h1>Drafts:</h1>
+    <div class="centerstage">
+        {% for product in product_list %}
+        <div class="product">
+            <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
+            <p>Created on: {{product.created_date|date:"D M Y"}}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

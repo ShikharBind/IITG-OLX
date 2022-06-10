@@ -1,0 +1,20 @@
+{% extends "posts_app/base.html" %}
+{% load static %}
+
+{% block head_block %}
+<title>Delete Buy Request</title>
+{% endblock %} 
+
+{% block body_block %}
+<div class="jumbotron">
+    <h1>Delete Buy Request?</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-danger" value="Delete">
+        <a class="btn btn-warning" href="{% url 'posts_app:product_detail' pk=buyrequest.product.pk %}">Cancel</a>
+    </form>
+    
+</div>
+{% endblock %}
