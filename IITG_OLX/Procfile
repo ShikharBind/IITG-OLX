@@ -1,0 +1,1 @@
+web: gunicorn IITG_OLX.wsgi --log-file -

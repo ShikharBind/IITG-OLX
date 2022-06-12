@@ -1,0 +1,28 @@
+asgiref @ file:///tmp/build/80754af9/asgiref_1625643473416/work
+certifi==2021.10.8
+cffi==1.15.0
+charset-normalizer==2.0.12
+cryptography==37.0.2
+dj-database-url==0.5.0
+Django @ file:///tmp/build/80754af9/django_1625585912945/work
+django-heroku==0.3.1
+django_microsoft_auth==2.4.1
+Faker @ file:///home/conda/feedstock_root/build_artifacts/faker_1648308862896/work
+gunicorn==20.1.0
+idna==3.3
+oauthlib==3.2.0
+Pillow==9.1.1
+psycopg2 @ file:///C:/ci/psycopg2_1612298766762/work
+pycparser==2.21
+PyJWT==2.4.0
+python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
+python-decouple==3.6
+pytz==2021.3
+requests==2.27.1
+requests-oauthlib==1.3.1
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+sqlparse @ file:///tmp/build/80754af9/sqlparse_1602184451250/work
+typing-extensions @ file:///tmp/build/80754af9/typing_extensions_1631814937681/work
+urllib3==1.26.9
+whitenoise==6.2.0
+wincertstore==0.2
