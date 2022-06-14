@@ -13,3 +13,9 @@ class BuyRequestForm(forms.ModelForm):
     class Meta():
         model = BuyRequest
         fields = ['price_negotiating']
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(required=False)
+    minimum_price = forms.IntegerField(required=False)
+    maximum_price = forms.IntegerField(required=False)

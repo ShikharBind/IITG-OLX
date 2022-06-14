@@ -1,0 +1,30 @@
+{% extends "posts_app/base.html" %}
+
+{% block head_block %}
+<title>Buy Requests</title>
+{% endblock %} 
+
+{% block body_block %}
+<div class="jumbotron">
+    <h1>My Buy Requests:</h1>
+    <div class="centerstage">
+        {% for request in buyrequest_list %}
+        {% if request.buyer == user %}
+        <div class="requests">
+            <h4>Buyer: <a href="{% url 'user_profile:user_data' pk=request.product.owner.detail.pk %}">
+                {{request.product.owner.detail}}</a></h4>
+            <p>Offered Price: 
+                {% if request.price_negotiating %}
+                    {{request.price_negotiating}}
+                {% else %}
+                    {{request.product.price}}
+                {% endif %}
+                rupees
+            </p>
+            <a class="btn btn-danger" href="{% url 'posts_app:request_delete' pk=request.pk %}">Remove</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

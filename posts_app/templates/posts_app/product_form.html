@@ -29,7 +29,7 @@
                 <input type="submit" class="btn btn-primary" value="Save">
             </form>
         {% else %}
-            {% if form.instance.user == user %}
+            {% if form.instance.owner == user %}
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}

@@ -29,7 +29,7 @@
                 {% if product_data.published_date == None %}
                 <a class="btn btn-warning" href="{% url 'posts_app:product_publish' pk=product_data.pk %}">Publish Product</a>
                 {% endif %}
-            <a class="btn btn-danger" href="#">Delete Product</a>
+            <a class="btn btn-danger" href="{% url 'posts_app:product_delete' pk=product_data.pk %}">Delete Product</a>
             <br> <br> <br>
             <div class="container">
                 {% if product_data.requests.count %}
@@ -37,7 +37,8 @@
                 {% endif %}
                 {% for request in product_data.requests.all %}
                 <div class="requests">
-                    <h4>Buyer: {{request.buyer}}</h4>
+                    <h4>Buyer: <a href="{% url 'user_profile:user_data' pk=request.buyer.detail.pk %}">
+                        {{request.buyer.detail}}</a></h4>
                     <p>Price giving: 
                         {% if request.price_negotiating %}
                             {{request.price_negotiating}}

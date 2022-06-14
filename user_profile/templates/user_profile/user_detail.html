@@ -3,7 +3,7 @@
 
 {% block head_block %}
 <title>User Profile</title>
-{% endblock %} 
+{% endblock %}
 
 {% block body_block %}
 <div class="jumbotron">
@@ -21,55 +21,114 @@
 
     {% if user_data.user == user %}
     <a class="btn btn-warning" href="{% url 'user_profile:update_data' pk=user_data.pk %}">Edit Profile</a>
-    
+
     {% else %}
     <!-- <a class="btn btn-danger" href="#">Delete Profile</a> -->
     {% endif %}
-    
-    <h2>Products on sale:</h2>
-    {% for product in user_data.user.products.all %}
+    <br><br>
+
+    <ul class="nav nav-tabs" id="transactions">
+        <li class="nav-item">
+            <h3><a class="nav-link" aria-current="page" id="onsaletab" href="#transactions">Products on sale</a></h3>
+        </li>
+        <li class="nav-item">
+            <h3><a class="nav-link" id="soldtab" href="#transactions">Products Sold</a></h3>
+        </li>
+        <li class="nav-item">
+            <h3><a class="nav-link" id="purchasestab" href="#transactions">Products Purchased</a></h3>
+        </li>
+        {% if user_data.user == user %}
+        <li class="nav-item">
+            <h3><a class="nav-link" id="wishlisttab" href="#transactions">Wishlist</a></h3>
+        </li>
+        {% endif %}
+    </ul>
+
+
+    <div id="onsale">
+        {% for product in user_data.user.products.all %}
         {% if product.published_date != None and product.is_sold == False %}
         <div class="product">
             <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
             <p>Published on: {{product.published_date|date:"d M Y"}}</p>
             <p>Price: {{product.price}} rupees</p>
-            <p>Buy Requests: </p>
+            <p>Buy Requests: {{product.requests.count}}</p>
         </div>
         {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </div>
 
-    <h2>Products Sold:</h2>
-    {% for product in user_data.user.products.all %}
+    <div id="sold">
+        {% for product in user_data.user.products.all %}
         {% if product.is_sold == True %}
         <div class="product">
             <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
             <p>Buyer: <a href="{% url 'user_profile:user_data' pk=product.buyer.detail.pk %}">
-                {{product.buyer.detail}}</a></p>
+                    {{product.buyer.detail}}</a></p>
             <p>Price: {{product.price}} rupees</p>
         </div>
         {% endif %}
-    {% endfor %}
-
-    <h2>Products Purchased:</h2>
-    {% for product in user_data.user.purchases.all %}
+        {% endfor %}
+    </div>
+    <div id="purchases">
+        {% for product in user_data.user.purchases.all %}
         <div class="product">
             <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
             <p>Seller: <a href="{% url 'user_profile:user_data' pk=product.owner.detail.pk %}">
-                {{product.owner.detail}}</a></p>
+                    {{product.owner.detail}}</a></p>
             <p>Price: {{product.price}} rupees</p>
         </div>
-    {% endfor %}
-    
-    {% if user_data.user == user %}
-    <h2>Wishlist:</h2>
-    {% for product in user_data.user.detail.wishlist_products.all %}
+        {% endfor %}
+    </div>
+    <div id="wishlist">
+        {% if user_data.user == user %}
+        {% for product in user_data.user.detail.wishlist_products.all %}
         <div class="product">
             <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
             <p>Seller: <a href="{% url 'user_profile:user_data' pk=product.owner.detail.pk %}">
-                {{product.owner.detail}}</a></p>
+                    {{product.owner.detail}}</a></p>
             <p>Price: {{product.price}} rupees</p>
         </div>
-    {% endfor %}
-    {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
 </div>
+<script>
+
+    function hideElement(id) {
+        var div = document.getElementById(id);
+        div.style.display = "none";
+    }
+
+    function hideAllTabElements() {
+        hideElement("onsale");
+        hideElement("sold");
+        hideElement("purchases");
+        hideElement("wishlist");
+    }
+
+    hideAllTabElements();
+
+    function showElement(id) {
+        var div = document.getElementById(id);
+        div.style.display = "block";
+    }
+
+    showElement("onsale");
+
+    function attachFunctionToLink(id) {
+        var tabid = id + "tab"
+        var onsale = document.getElementById(tabid);
+        onsale.onclick = function () {
+            hideAllTabElements();
+            showElement(id);
+        }
+    }
+
+    attachFunctionToLink("onsale");
+    attachFunctionToLink("sold");
+    attachFunctionToLink("purchases");
+    attachFunctionToLink("wishlist");
+
+</script>
 {% endblock %}

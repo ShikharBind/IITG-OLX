@@ -2,25 +2,26 @@
 {% load static %}
 
 {% block head_block %}
-<title>Delete Buy Request</title>
+<title>Delete Product</title>
 {% endblock %} 
 
 {% block body_block %}
 <div class="jumbotron">
-    <h1>Delete Buy Request?</h1>
 
-    {% if buyrequest.buyer == user or buyrequest.product.owner == user  %}
+    <h1>Delete '{{product.product_title}}' Prouct?</h1>
+
+    {% if product.owner == user %}
 
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" class="btn btn-danger" value="Delete">
-        <a class="btn btn-warning" href="{% url 'posts_app:product_detail' pk=buyrequest.product.pk %}">Cancel</a>
+        <a class="btn btn-warning" href="{% url 'posts_app:product_detail' pk=product.pk %}">Cancel</a>
     </form>
 
     
     {% else %}
-    <p>You can not delete other user's buy request.</p>
+    <p>You can not delete other user's product.</p>
     {% endif %}
     
 </div>

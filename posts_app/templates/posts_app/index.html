@@ -7,15 +7,25 @@
 {% block body_block %}
 <div class="jumbotron">
     <h1>IITG OLX COMING SOON...</h1>
+
+    <form method="GET" action="{% url 'posts_app:index' %}">
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-primary" value="Search">
+    </form>
+
+    <br><br><br>
+
     <div class="centerstage">
         {% for product in product_list %}
         <div class="product">
             <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
             <p>Published on: {{product.published_date|date:"D M Y"}}</p>
             <p>Price: {{product.price}} rupees</p>
-            <p>Buy Requests: </p>
+            <p>Buy Requests: {{product.requests.count}}</p>
         </div>
         {% endfor %}
     </div>
+
+    {{get.s}}
 </div>
 {% endblock %} 

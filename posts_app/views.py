@@ -7,17 +7,39 @@ from django.views.generic import ListView,DetailView,CreateView,UpdateView,Delet
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse,HttpResponseRedirect
+from django.db.models import Q
 from posts_app.models import Product, BuyRequest
-from posts_app.forms import ProductForm, BuyRequestForm
+from posts_app.forms import ProductForm, BuyRequestForm, SearchForm
 
 # Create your views here.
 
 class IndexView(ListView):
     template_name = 'posts_app/index.html'
     model = Product
+    searchform = SearchForm()
+
+
+    extra_context={'form': searchform}
 
     def get_queryset(self):
-        return Product.objects.filter(published_date__lte=timezone.now(),is_sold=False).order_by('-published_date')
+
+        search = self.request.GET.get('search', None)
+        min_p = self.request.GET.get('minimum_price', None)
+        max_p = self.request.GET.get('maximum_price', None)
+
+        query =  Product.objects.filter(published_date__lte=timezone.now(),is_sold=False).order_by('-published_date')
+        
+        if search:
+            lookups = Q(product_title__icontains=search)| Q(product_details__icontains=search)
+            query = query.filter(lookups).distinct()
+        
+        if min_p:
+            query = query.filter(price__gte=min_p)
+            
+        if max_p:
+            query = query.filter(price__lte=max_p)
+
+        return query
 
 
 
@@ -60,6 +82,18 @@ class ProductUpdateView(LoginRequiredMixin,UpdateView):
     model = Product
     form_class = ProductForm
 
+    
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('posts_app:index')
+
+    def delete(self, request, *args, **kwargs):
+        object = self.get_object()
+        object.requests.all().delete()
+        return super().delete(request, *args, **kwargs)
+
+
+
 class DraftsListView(LoginRequiredMixin,ListView):
     login_url = '/microsoft/to-auth-redirect/'
     
@@ -99,6 +133,13 @@ class BuyRequestUpdateView(LoginRequiredMixin,UpdateView):
 class BuyRequestDeleteView(DeleteView):
     model = BuyRequest
     success_url = reverse_lazy('posts_app:index')
+
+
+class BuyRequestsListView(LoginRequiredMixin,ListView):
+    login_url = '/microsoft/to-auth-redirect/'
+    
+    template_name = 'posts_app/buy_requests_list.html'
+    model = BuyRequest
 
 
 
