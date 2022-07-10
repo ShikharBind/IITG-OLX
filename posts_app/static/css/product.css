@@ -1,0 +1,103 @@
+body {
+    /* background-color: #F5F5F5; */
+}
+
+h1 {
+    text-align: center;
+}
+
+.product-list {
+    width: 50%;
+    margin: auto;
+    background-color: #F5F5F5;
+}
+
+.products {
+    margin-top: 50px;
+}
+
+.searchbox {
+    background-color: #D9D9D9;
+    margin: 20px auto;
+    border: 5px solid black;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.searchboxElements {
+    display: block;
+    float: left;
+    margin: 10px 2%;
+}
+
+.searchField {
+    width: 70%;
+    border-width: 0px;
+    border-radius: 5px;
+}
+
+.priceField {
+    width: 20%;
+    border-width: 0px;
+    border-radius: 5px;
+}
+
+.deals {
+    width: 40%;
+    display: block;
+    clear: both;
+    margin: 10px auto;
+    /* background-color: #D94829; */
+}
+
+.product {
+    margin: 10px;
+}
+
+.detail {
+    margin: 10px;
+}
+
+.request {
+    margin: 10px auto;
+}
+
+.productImage {
+    width: 25%;
+    float: right;
+    border-radius: 10px;
+    aspect-ratio: 1/1;
+}
+
+.card {
+    background-color: #D9D9D9;
+}
+
+.card-title {
+    text-align: center;
+    background-color: #B9B1EF;
+    height: 40px;
+    color: #0111A7;
+}
+
+.card-title a {
+    text-decoration: none;
+    color: #0111A7;
+}
+
+.detail .card-title {
+    height: 60px;
+}
+
+.detail .productImage {
+    width: 40%;
+    float: right;
+    border-radius: 10px;
+    aspect-ratio: 1;
+}
+
+.request .btn {
+    float: right;
+    display: block;
+    margin: 5px;
+}

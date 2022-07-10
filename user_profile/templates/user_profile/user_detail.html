@@ -2,29 +2,34 @@
 {% load static %}
 
 {% block head_block %}
+<link href="{% static 'css/product.css' %}" rel="stylesheet">
 <title>User Profile</title>
 {% endblock %}
 
 {% block body_block %}
-<div class="jumbotron">
-    <h1>Profile Details:</h1>
-    <!-- <p>Profile pic: <img src="{{user_data.profile_pic_url}}" alt="" width="200px"></p> -->
-    <img src="{{user_data.profile_pic_url}}" alt="" width="300px" height="300">
-    <br><br>
-    <p>Name: {{user_data.user.first_name}} {{user_data.user.last_name}}</p>
-    <p>Program: {{user_data.program}}</p>
-    <p>Department: {{user_data.department}}</p>
-    <p>Year of study: </p>
-    <p>Contact No: {{user_data.contact}}</p>
-    <p>Email ID: {{user_data.user.email}}</p>
-    <br>
+<div class="">
 
-    {% if user_data.user == user %}
-    <a class="btn btn-warning" href="{% url 'user_profile:update_data' pk=user_data.pk %}">Edit Profile</a>
+    <div class="detail card w-100">
+        <div class="card-body">
+            <h1 class="card-title">
+                {{user_data.user.first_name}} {{user_data.user.last_name}}</h1>
+            <img class="productImage" src="{{user_data.profile_pic_url}}" alt="Image of {{product.product_title}}">
+            <!-- <p>Name: {{user_data.user.first_name}} {{user_data.user.last_name}}</p> -->
+            <p>Program: {{user_data.program}}</p>
+            <p>Department: {{user_data.department}}</p>
+            <!-- <p>Year of study: </p> -->
+            <p>Contact No: {{user_data.contact}}</p>
+            <p>Email ID: {{user_data.user.email}}</p>
+            <br>
 
-    {% else %}
-    <!-- <a class="btn btn-danger" href="#">Delete Profile</a> -->
-    {% endif %}
+            {% if user_data.user == user %}
+            <a class="btn btn-warning" href="{% url 'user_profile:update_data' pk=user_data.pk %}">Edit Profile</a>
+
+            {% else %}
+            <!-- <a class="btn btn-danger" href="#">Delete Profile</a> -->
+            {% endif %}
+        </div>
+    </div>
     <br><br>
 
     <ul class="nav nav-tabs" id="transactions">
@@ -44,53 +49,76 @@
         {% endif %}
     </ul>
 
+    <div class="product-list">
+        <div id="onsale">
+            {% for product in user_data.user.products.all %}
+            {% if product.published_date != None and product.is_sold == False %}
+            <div class="product card w-100">
+                <div class="card-body">
+                    <h3 class="card-title"><a href="{% url 'posts_app:product_detail' pk=product.pk %}">
+                            {{product.product_title}}</a></h3>
+                    <img class="productImage" src="{{product.image_url}}" alt="Image of {{product.product_title}}">
+                    <p>Published on: {{product.published_date|date:"D M Y"}}</p>
+                    <p>Price: {{product.price}} rupees</p>
+                    <p>Buy Requests: {{product.requests.count}}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
 
-    <div id="onsale">
-        {% for product in user_data.user.products.all %}
-        {% if product.published_date != None and product.is_sold == False %}
-        <div class="product">
-            <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
-            <p>Published on: {{product.published_date|date:"d M Y"}}</p>
-            <p>Price: {{product.price}} rupees</p>
-            <p>Buy Requests: {{product.requests.count}}</p>
+        <div id="sold">
+            {% for product in user_data.user.products.all %}
+            {% if product.is_sold == True %}
+            <div class="product card w-100">
+                <div class="card-body">
+                    <h3 class="card-title"><a href="{% url 'posts_app:product_detail' pk=product.pk %}">
+                            {{product.product_title}}</a></h3>
+                    <img class="productImage" src="{{product.image_url}}" alt="Image of {{product.product_title}}">
+                    <p>Buyer: <a href="{% url 'user_profile:user_data' pk=product.buyer.detail.pk %}">
+                            {{product.buyer.detail}}</a></p>
+                    <p>Price: {{product.price}} rupees</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-
-    <div id="sold">
-        {% for product in user_data.user.products.all %}
-        {% if product.is_sold == True %}
-        <div class="product">
-            <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
-            <p>Buyer: <a href="{% url 'user_profile:user_data' pk=product.buyer.detail.pk %}">
-                    {{product.buyer.detail}}</a></p>
-            <p>Price: {{product.price}} rupees</p>
+        <div id="purchases">
+            {% for product in user_data.user.purchases.all %}
+            <!-- <div class="product">
+                <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
+                <p>Seller: <a href="{% url 'user_profile:user_data' pk=product.owner.detail.pk %}">
+                        {{product.owner.detail}}</a></p>
+                <p>Price: {{product.price}} rupees</p>
+            </div> -->
+            <div class="product card w-100">
+                <div class="card-body">
+                    <h3 class="card-title"><a href="{% url 'posts_app:product_detail' pk=product.pk %}">
+                            {{product.product_title}}</a></h3>
+                    <img class="productImage" src="{{product.image_url}}" alt="Image of {{product.product_title}}">
+                    <p>Seller: <a href="{% url 'user_profile:user_data' pk=product.owner.detail.pk %}">
+                            {{product.owner.detail}}</a></p>
+                    <p>Price: {{product.price}} rupees</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-    <div id="purchases">
-        {% for product in user_data.user.purchases.all %}
-        <div class="product">
-            <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
-            <p>Seller: <a href="{% url 'user_profile:user_data' pk=product.owner.detail.pk %}">
-                    {{product.owner.detail}}</a></p>
-            <p>Price: {{product.price}} rupees</p>
+        <div id="wishlist">
+            {% if user_data.user == user %}
+            {% for product in user_data.user.detail.wishlist_products.all %}
+            <div class="product card w-100">
+                <div class="card-body">
+                    <h3 class="card-title"><a href="{% url 'posts_app:product_detail' pk=product.pk %}">
+                            {{product.product_title}}</a></h3>
+                    <img class="productImage" src="{{product.image_url}}" alt="Image of {{product.product_title}}">
+                    <p>Seller: <a href="{% url 'user_profile:user_data' pk=product.owner.detail.pk %}">
+                            {{product.owner.detail}}</a></p>
+                    <p>Price: {{product.price}} rupees</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %}
-    </div>
-    <div id="wishlist">
-        {% if user_data.user == user %}
-        {% for product in user_data.user.detail.wishlist_products.all %}
-        <div class="product">
-            <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
-            <p>Seller: <a href="{% url 'user_profile:user_data' pk=product.owner.detail.pk %}">
-                    {{product.owner.detail}}</a></p>
-            <p>Price: {{product.price}} rupees</p>
-        </div>
-        {% endfor %}
-        {% endif %}
     </div>
 </div>
 <script>

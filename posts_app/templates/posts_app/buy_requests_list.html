@@ -1,8 +1,10 @@
 {% extends "posts_app/base.html" %}
+{% load static %}
 
 {% block head_block %}
+<link href="{% static 'css/product.css' %}" rel="stylesheet">
 <title>Buy Requests</title>
-{% endblock %} 
+{% endblock %}
 
 {% block body_block %}
 <div class="jumbotron">
@@ -10,21 +12,27 @@
     <div class="centerstage">
         {% for request in buyrequest_list %}
         {% if request.buyer == user %}
-        <div class="requests">
-            <h4>Buyer: <a href="{% url 'user_profile:user_data' pk=request.product.owner.detail.pk %}">
-                {{request.product.owner.detail}}</a></h4>
-            <p>Offered Price: 
-                {% if request.price_negotiating %}
+        <div class="request card w-50">
+            <div class="card-body">
+                <h3 class="card-title">{{request.product.product_title}}</h3>
+                <p>Seller: <a
+                    href="{% url 'user_profile:user_data' pk=request.product.owner.detail.pk %}">
+                    {{request.product.owner.detail}}</a></p>
+                <p>Offered Price:
+                    {% if request.price_negotiating %}
                     {{request.price_negotiating}}
-                {% else %}
+                    {% else %}
                     {{request.product.price}}
-                {% endif %}
-                rupees
-            </p>
-            <a class="btn btn-danger" href="{% url 'posts_app:request_delete' pk=request.pk %}">Remove</a>
+                    {% endif %}
+                    rupees
+                </p>
+                <a class="btn btn-danger" href="{% url 'posts_app:request_delete' pk=request.pk %}">Remove</a>
+                <a class="btn btn-primary" href="{% url 'posts_app:request_edit' pk=request.pk %}">
+                    Edit Request</a>
+            </div>
         </div>
         {% endif %}
         {% endfor %}
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

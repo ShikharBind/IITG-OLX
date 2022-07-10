@@ -1,0 +1,13 @@
+body {
+    color: black;
+    font-size: 1.2em;
+    background-color: #F5F5F5;
+}
+
+nav {
+    background-color: #ECE1B7;
+}
+
+#logo {
+    width: 80%;
+}

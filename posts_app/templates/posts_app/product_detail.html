@@ -2,87 +2,96 @@
 {% load static %}
 
 {% block head_block %}
+<link href="{% static 'css/product.css' %}" rel="stylesheet">
 <title>Product detail</title>
-{% endblock %} 
+{% endblock %}
 
 {% block body_block %}
-<div class="jumbotron">
-    <h1>Product Details:</h1>
-    <img src="{{product_data.image_url}}" alt="" width="300px" height="300"><br><br>
-    <p>Title: {{product_data.product_title}}</p>
-    <p>Product description: {{product_data.product_details}}</p>
-    <p>Current age: {{product_data.current_age}} years</p>
-    <p>Price: {{product_data.price}} Rupees</p>
-    <p>Seller: <a href="{% url 'user_profile:user_data' pk=product_data.owner.detail.pk %}">
-        {{product_data.owner.detail}}</a></p>
-    <p>Posted on: {{product_data.published_date|date:"d M Y"}}</p>
-    {% if product_data.is_sold %}
-        <p>sold on: {{product_data.selling_date|date:"d M Y"}}</p>
-        <p>Buyer: <a href="{% url 'user_profile:user_data' pk=product_data.buyer.detail.pk %}">
-            {{product_data.buyer.detail}}</a></p>
-    
-    {% else %}
-        <br>
+<div class="">
+    <div class="detail card w-100">
+        <div class="card-body">
+            <h1 class="card-title">{{product_data.product_title}}</h1>
+            <img class="productImage" src="{{product_data.image_url}}" alt="{{product_data.product_title}}'s image">
+            <!-- <p>Title: {{product_data.product_title}}</p> -->
+            <p>Product description: {{product_data.product_details}}</p>
+            <p>Current age: {{product_data.current_age}} years</p>
+            <p>Price: {{product_data.price}} Rupees</p>
+            <p>Seller: <a href="{% url 'user_profile:user_data' pk=product_data.owner.detail.pk %}">
+                    {{product_data.owner.detail}}</a></p>
+            <p>Posted on: {{product_data.published_date|date:"d M Y"}}</p>
+            {% if product_data.is_sold %}
+            <p>sold on: {{product_data.selling_date|date:"d M Y"}}</p>
+            <p>Buyer: <a href="{% url 'user_profile:user_data' pk=product_data.buyer.detail.pk %}">
+                    {{product_data.buyer.detail}}</a></p>
 
-        {% if product_data.owner == user %}
+            {% else %}
+            <br>
+
+            {% if product_data.owner == user %}
             <a class="btn btn-warning" href="{% url 'posts_app:update_product' pk=product_data.pk %}">Edit Product</a>
-                {% if product_data.published_date == None %}
-                <a class="btn btn-warning" href="{% url 'posts_app:product_publish' pk=product_data.pk %}">Publish Product</a>
-                {% endif %}
+            {% if product_data.published_date == None %}
+            <a class="btn btn-warning" href="{% url 'posts_app:product_publish' pk=product_data.pk %}">Publish
+                Product</a>
+            {% endif %}
             <a class="btn btn-danger" href="{% url 'posts_app:product_delete' pk=product_data.pk %}">Delete Product</a>
-            <br> <br> <br>
-            <div class="container">
-                {% if product_data.requests.count %}
-                <h2>Buyer Requests:</h2>
-                {% endif %}
-                {% for request in product_data.requests.all %}
-                <div class="requests">
-                    <h4>Buyer: <a href="{% url 'user_profile:user_data' pk=request.buyer.detail.pk %}">
-                        {{request.buyer.detail}}</a></h4>
-                    <p>Price giving: 
-                        {% if request.price_negotiating %}
-                            {{request.price_negotiating}}
-                        {% else %}
-                            {{product_data.price}}
-                        {% endif %}
-                    </p>
-                    <a class="btn btn-primary" href="{% url 'posts_app:product_sell' pk=request.pk %}">Sell</a>
-                    <a class="btn btn-danger" href="{% url 'posts_app:request_delete' pk=request.pk %}">Remove</a>
-                </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            {% if product_data in user.detail.wishlist_products.all %}
-            <a class="btn btn-danger" href="{% url 'user_profile:wishlist_remove' pk=product_data.pk %}">
-                Remove From Wishlist</a>
-            {% else %}
-            <a class="btn btn-warning" href="{% url 'user_profile:wishlist_add' pk=product_data.pk %}">
-                Add To Wishlist</a>
-            {% endif %}
-        
-            {% if buyrequest.count %}
-                {% for request in buyrequest %}
-                    {% if request.buyer == user %}
-                    <a class="btn btn-primary" href="{% url 'posts_app:request_edit' pk=request.pk %}">
-                        Edit Request</a>
-                    <a class="btn btn-danger" href="{% url 'posts_app:request_delete' pk=request.pk %}">
-                        Delete Request</a>
-                    <div>
-                        <h3>Price giving: 
-                            {% if request.price_negotiating %}
-                                {{request.price_negotiating}}
-                            {% else %}
-                                {{product_data.price}}
-                            {% endif %}
-                        </h3>
-                    </div>
-                    {% endif %}
-                {% endfor %}
-
-            {% else %}
-                <a class="btn btn-primary" href="{% url 'posts_app:request_add' pk=product_data.pk %}">Send Buy Request</a>
-            {% endif %}
+            <div class="spacer" style="clear: both;"></div>
+        </div>
+    </div>
+    <br> <br> <br>
+    <div class="container">
+        {% if product_data.requests.count %}
+        <h2>Buyer Requests:</h2>
         {% endif %}
+        {% for request in product_data.requests.all %}
+        <div class="request card w-50">
+            <div class="card-body">
+                <h3 class="card-title">Buyer: <a href="{% url 'user_profile:user_data' pk=request.buyer.detail.pk %}">
+                        {{request.buyer.detail}}</a></h3>
+                <p>Offered Price:
+                    {% if request.price_negotiating %}
+                    {{request.price_negotiating}}
+                    {% else %}
+                    {{product_data.price}}
+                    {% endif %}
+                </p>
+                <a class="btn btn-danger" href="{% url 'posts_app:request_delete' pk=request.pk %}">Remove</a>
+                <a class="btn btn-primary" href="{% url 'posts_app:product_sell' pk=request.pk %}">Sell</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    {% if product_data in user.detail.wishlist_products.all %}
+    <a class="btn btn-danger" href="{% url 'user_profile:wishlist_remove' pk=product_data.pk %}">
+        Remove From Wishlist</a>
+    {% else %}
+    <a class="btn btn-warning" href="{% url 'user_profile:wishlist_add' pk=product_data.pk %}">
+        Add To Wishlist</a>
+    {% endif %}
+
+    {% if buyrequest.count %}
+    {% for request in buyrequest %}
+    {% if request.buyer == user %}
+    <a class="btn btn-primary" href="{% url 'posts_app:request_edit' pk=request.pk %}">
+        Edit Request</a>
+    <a class="btn btn-danger" href="{% url 'posts_app:request_delete' pk=request.pk %}">
+        Delete Request</a>
+    <div>
+        <h3>Price offered:
+            {% if request.price_negotiating %}
+            {{request.price_negotiating}}
+            {% else %}
+            {{product_data.price}}
+            {% endif %}
+        </h3>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    {% else %}
+    <a class="btn btn-primary" href="{% url 'posts_app:request_add' pk=product_data.pk %}">Send Buy Request</a>
+    {% endif %}
+    {% endif %}
     {% endif %}
     <br><br> <br>
 </div>

@@ -16,6 +16,6 @@ class BuyRequestForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    search = forms.CharField(required=False)
-    minimum_price = forms.IntegerField(required=False)
-    maximum_price = forms.IntegerField(required=False)
+    search = forms.CharField(required=False,widget=forms.TextInput(attrs={'class': 'searchField searchboxElements'}))
+    minimum_price = forms.IntegerField(required=False,widget=forms.NumberInput(attrs={'class': 'priceField searchboxElements'}))
+    maximum_price = forms.IntegerField(required=False,widget=forms.NumberInput(attrs={'class': 'priceField searchboxElements'}))

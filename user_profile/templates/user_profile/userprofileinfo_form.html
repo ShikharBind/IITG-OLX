@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block head_block %}
+<link href="{% static 'css/form.css' %}" rel="stylesheet">
 <title>
     {% if not form.instance.pk %}
     Add User Profile
@@ -9,34 +10,42 @@
     Update User Profile
     {% endif %}
 </title>
-{% endblock %} 
+{% endblock %}
 
 {% block body_block %}
 <div class="jumbotron">
-    <h1>
-        {% if not form.instance.pk %}
-        Add User Profile
-        {% else %}
-        Update User Profile
-        {% endif %}
-    </h1>
+
 
     {% if not form.instance.pk %}
-        <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>
+                <h1>
+                    Add User Profile
+                </h1>
+            </legend>
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" class="btn btn-primary" value="Save">
-        </form>
+        </fieldset>
+    </form>
     {% else %}
-        {% if form.instance.user == user %}
-        <form method="post" enctype="multipart/form-data">
+    {% if form.instance.user == user %}
+    <form method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>
+                <h1>
+                    Update User Profile
+                </h1>
+            </legend>
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" class="btn btn-primary" value="Save">
-        </form>
-        {% else %}
-        <p>You can not change other user's profile.</p>
-        {% endif %}
+        </fieldset>
+    </form>
+    {% else %}
+    <p>You can not change other user's profile.</p>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}

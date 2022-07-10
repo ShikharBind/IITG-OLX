@@ -1,19 +1,24 @@
 {% extends "posts_app/base.html" %}
+{% load static %}
 
 {% block head_block %}
+<link href="{% static 'css/product.css' %}" rel="stylesheet">
 <title>Drafts</title>
-{% endblock %} 
+{% endblock %}
 
 {% block body_block %}
-<div class="jumbotron">
-    <h1>Drafts:</h1>
-    <div class="centerstage">
+<div class="product-list">
+    <h1>Drafts</h1>
+    <div class="products">
         {% for product in product_list %}
-        <div class="product">
-            <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
-            <p>Created on: {{product.created_date|date:"D M Y"}}</p>
+        <div class="product card w-100">
+            <div class="card-body">
+                <h3 class="card-title"><a href="{% url 'posts_app:product_detail' pk=product.pk %}">
+                    {{product.product_title}}</a></h3>
+                <p>Created on: {{product.created_date|date:"D M Y"}}</p>
+            </div>
         </div>
         {% endfor %}
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

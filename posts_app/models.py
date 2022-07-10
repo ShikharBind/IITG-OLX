@@ -42,7 +42,7 @@ class Product(models.Model):
         if self.image and hasattr(self.image, 'url'):
             return self.image.url
         else:
-            return '/static/images/Logo_imageOnly.jpeg'
+            return '/static/images/blank_image.jpg'
 
 
 

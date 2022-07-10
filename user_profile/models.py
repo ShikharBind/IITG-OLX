@@ -38,4 +38,4 @@ class UserProfileInfo(models.Model):
         if self.profile_pic and hasattr(self.profile_pic, 'url'):
             return self.profile_pic.url
         else:
-            return '/static/images/Logo_imageOnly.jpeg'
+            return '/static/images/blank_profile.jpg'

@@ -1,0 +1,12 @@
+p {
+    width: 100%;
+}
+
+label {
+    width: 20%;
+}
+
+fieldset {
+    border: 5px solid black;
+    padding: 2%;
+}

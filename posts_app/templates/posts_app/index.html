@@ -1,31 +1,42 @@
 {% extends "posts_app/base.html" %}
+{% load static %}
 
 {% block head_block %}
+<link href="{% static 'css/product.css' %}" rel="stylesheet">
 <title>IITG OLX</title>
-{% endblock %} 
+{% endblock %}
 
 {% block body_block %}
-<div class="jumbotron">
-    <h1>IITG OLX COMING SOON...</h1>
+<div class="product-list">
+    <!-- <h1>IITG OLX COMING SOON...</h1> -->
+    <div class="searchbox">
+        <form method="GET" action="{% url 'posts_app:index' %}">
+            <span class="searchboxElements" style="width: 15%;">Search</span> {{form.search}} <br>
+            <span class="searchboxElements" style="width: 15%;">Price</span> {{form.minimum_price}}
+            <span class="searchboxElements" style="width: 7%;">To</span> {{form.maximum_price}}
+            <span class="searchboxElements" style="width: 15%;">Rupees</span> <br>
 
-    <form method="GET" action="{% url 'posts_app:index' %}">
-        {{ form.as_p }}
-        <input type="submit" class="btn btn-primary" value="Search">
-    </form>
+            <input type="submit" class="btn btn-primary deals" value="FIND DEALS!">
+        </form>
+    </div>
 
-    <br><br><br>
+    <br>
 
-    <div class="centerstage">
+    <div class="products">
         {% for product in product_list %}
-        <div class="product">
-            <h2><a href="{% url 'posts_app:product_detail' pk=product.pk %}">{{product.product_title}}</a></h2>
-            <p>Published on: {{product.published_date|date:"D M Y"}}</p>
-            <p>Price: {{product.price}} rupees</p>
-            <p>Buy Requests: {{product.requests.count}}</p>
+        <div class="product card w-100">
+            <div class="card-body">
+                <h3 class="card-title"><a href="{% url 'posts_app:product_detail' pk=product.pk %}">
+                    {{product.product_title}}</a></h3>
+                <img class="productImage" src="{{product.image_url}}" alt="Image of {{product.product_title}}">
+                <p>Published on: {{product.published_date|date:"D M Y"}}</p>
+                <p>Price: {{product.price}} rupees</p>
+                <p>Buy Requests: {{product.requests.count}}</p>
+            </div>
         </div>
         {% endfor %}
     </div>
 
     {{get.s}}
 </div>
-{% endblock %} 
+{% endblock %}
