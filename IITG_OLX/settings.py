@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,9 +26,9 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'django-insecure-@8zs5y@wnr)ybesu*s1f2y6!8+bt&%j1!8fpgwvr^ixe046z+7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
-ALLOWED_HOSTS = ['*']
+DEBUG = True
+# DEBUG = False
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -85,14 +83,14 @@ WSGI_APPLICATION = 'IITG_OLX.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ciba',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'ciba',
+    # }
 }
 
 
@@ -133,9 +131,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     STATIC_DIR,
-# ]
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
 
 MEDIA_URL = '/media/'
 
@@ -165,12 +163,12 @@ MICROSOFT_AUTH_TENANT_ID = '850aa78d-94e1-4bc6-9cf3-8c11b530701c'
 # include Microsoft Accounts, Office 365 Enterpirse and Azure AD accounts
 MICROSOFT_AUTH_LOGIN_TYPE = 'ma'
 
-LOGIN_URL = '/profile/login'
-# LOGIN_URL = '/microsoft/to-auth-redirect/'
+# LOGIN_URL = '/profile/login'
+LOGIN_URL = '/microsoft/to-auth-redirect/'
 
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
